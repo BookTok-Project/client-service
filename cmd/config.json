@@ -1,0 +1,17 @@
+{
+	"ShutdownTimeoutSeconds": 10,
+	"PostgresDSN": "user='bt_admin' password='@2aLb?KTG#wRC88Ku%-d' host='147.45.161.131' port=5432 dbname='client-service' sslmode=disable",
+	"Delivery": {
+		"Server": {
+			"ReadTimeoutSeconds": 10,
+			"WriteTimeoutSeconds": 10
+		},
+		"Cors": {
+			"AllowOrigins": "*",
+			"AllowHeaders": "Authorization"
+		},
+		"Serve": {
+			"Address": ":5000"
+		}
+	}
+}

@@ -1,0 +1,12 @@
+services:
+  app:
+    container_name: client-service
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      network: host
+    ports:
+      - "5000:5000"
+    environment:
+      - GO_ENV=production
+    network_mode: host
