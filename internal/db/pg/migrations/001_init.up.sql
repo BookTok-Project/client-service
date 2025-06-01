@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS subscriptions (
-	id           BIGSERIAL PRIMARY KEY,
-	reader_id    BIGINT    NOT NULL,
-	writer_id    BIGINT    NOT NULL
+	id            BIGSERIAL PRIMARY KEY,
+	subscriber_id BIGINT    NOT NULL,
+	subscribee_id BIGINT    NOT NULL
 );

@@ -1,9 +1,13 @@
--- name: GetSubscribers :many
-SELECT reader_id
+-- name: GetSubscriberIDs :many
+SELECT subscriber_id
 FROM subscriptions
-WHERE writer_id = $1;
+WHERE subscribee_id = $1;
 
--- name: GetSubscriptions :many
-SELECT writer_id
+-- name: GetSubscribeeIDs :many
+SELECT subscribee_id
 FROM subscriptions
-WHERE reader_id = $1;
+WHERE subscriber_id = $1;
+
+-- name: Subscribe :exec
+INSERT INTO subscriptions (subscriber_id, subscribee_id)
+VALUES ($1, $2);

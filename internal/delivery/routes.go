@@ -8,4 +8,7 @@ import (
 func registerRoutes(app *fiber.App, transport transport) {
 	app.Use(recover.New())
 	app.Get("/", transport.HelloWorld)
+	app.Post("/subscribe", transport.Subscribe)
+	app.Get("/subscribers/:subscribee_id", transport.GetSubscriberIDs)
+	app.Get("/subscribees/:subscriber_id", transport.GetSubscribeeIDs)
 }

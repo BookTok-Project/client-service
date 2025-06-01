@@ -5,7 +5,7 @@
 package pg
 
 type Subscription struct {
-	ID       int64
-	ReaderID int64
-	WriterID int64
+	ID           int64
+	SubscriberID int64
+	SubscribeeID int64
 }
