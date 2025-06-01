@@ -26,7 +26,7 @@ func (t *Transport) HelloWorld(fiberCtx *fiber.Ctx) error {
 }
 
 func (t *Transport) GetSubscribeeIDs(fiberCtx *fiber.Ctx) error {
-	subscriberIDString := fiberCtx.Params("subscribee_id")
+	subscriberIDString := fiberCtx.Params("subscriber_id")
 
 	subscriberID, err := strconv.ParseInt(subscriberIDString, 10, 64)
 	if err != nil {
