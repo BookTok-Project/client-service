@@ -17,6 +17,6 @@ bin/golangci-lint: | bin/
 lint: bin/golangci-lint
 	go list -f '{{.Dir}}/...' -m | xargs ./bin/golangci-lint run --fix
 
-.PHONY: run
-run:
-	go run ./cmd
+.PHONY: local
+local:
+	docker-compose -f .docker/local/docker-compose.yml up --build -d
