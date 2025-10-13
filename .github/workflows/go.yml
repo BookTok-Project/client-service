@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build Docker image
-        run: docker build -t client-service:latest .docker/remote/Dockerfile .
+        run: docker build -t client-service:latest .docker/remote/Dockerfile
 
       - name: Save Docker image to archive
         run: docker save client-service:latest -o client-service.tar
