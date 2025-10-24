@@ -11,4 +11,7 @@ func registerRoutes(app *fiber.App, transport transport) {
 	app.Post("/subscribe", transport.Subscribe)
 	app.Get("/subscribers/:subscribee_id", transport.GetSubscriberIDs)
 	app.Get("/subscribees/:subscriber_id", transport.GetSubscribeeIDs)
+	app.Post("/favorites", transport.AddFavorite)
+	app.Delete("/favorites", transport.RemoveFavorite)
+	app.Get("/favorites", transport.ListFavorites)
 }
