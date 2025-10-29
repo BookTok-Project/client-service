@@ -7,8 +7,8 @@ import (
 )
 
 type favoriteRequest struct {
-	UserID int64 `json:"user_id"`
-	BookID int64 `json:"book_id"`
+	UserID int64 `json:"user_id" validate:"required"`
+	BookID int64 `json:"book_id" validate:"required"`
 }
 
 func (t *Transport) AddFavorite(fiberCtx *fiber.Ctx) error {
@@ -38,7 +38,7 @@ func (t *Transport) RemoveFavorite(fiberCtx *fiber.Ctx) error {
 }
 
 func (t *Transport) ListFavorites(fiberCtx *fiber.Ctx) error {
-	userIDParam := fiberCtx.Params("user_id") // например: /favorites/:user_id
+	userIDParam := fiberCtx.Params("user_id")
 	if userIDParam == "" {
 		return fiberCtx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "user_id required"})
 	}

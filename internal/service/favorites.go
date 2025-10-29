@@ -6,28 +6,22 @@ import (
 	repoPkg "client-service/internal/repo"
 )
 
-type FavoritesService interface {
-	AddFavorite(ctx context.Context, userID, bookID int64) error
-	RemoveFavorite(ctx context.Context, userID, bookID int64) error
-	ListFavorites(ctx context.Context, userID int64) ([]int64, error)
-}
-
-type favoritesService struct {
+type FavoritesService struct {
 	repo repoPkg.FavoritesRepo
 }
 
-func NewFavoritesService(r repoPkg.FavoritesRepo) FavoritesService {
-	return &favoritesService{repo: r}
+func NewFavoritesService(r repoPkg.FavoritesRepo) *FavoritesService {
+	return &FavoritesService{repo: r}
 }
 
-func (s *favoritesService) AddFavorite(ctx context.Context, userID, bookID int64) error {
+func (s *FavoritesService) AddFavorite(ctx context.Context, userID, bookID int64) error {
 	return s.repo.Add(ctx, userID, bookID)
 }
 
-func (s *favoritesService) RemoveFavorite(ctx context.Context, userID, bookID int64) error {
+func (s *FavoritesService) RemoveFavorite(ctx context.Context, userID, bookID int64) error {
 	return s.repo.Remove(ctx, userID, bookID)
 }
 
-func (s *favoritesService) ListFavorites(ctx context.Context, userID int64) ([]int64, error) {
+func (s *FavoritesService) ListFavorites(ctx context.Context, userID int64) ([]int64, error) {
 	return s.repo.List(ctx, userID)
 }
