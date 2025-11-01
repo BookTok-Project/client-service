@@ -1,12 +1,9 @@
 services:
   client-service:
     container_name: client-service
-    build:
-      dockerfile: ./.docker/remote/Dockerfile
-      context: ../..
-      network: host
+    image: client-service:latest
     ports:
       - "9000:9000"
     environment:
       - GO_ENV=production
-    network_mode: host
+    restart: unless-stopped
