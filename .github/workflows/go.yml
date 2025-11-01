@@ -47,15 +47,15 @@ jobs:
 
       - name: Transfer Docker image to server
         run: |
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -o StrictHostKeyChecking=no client-service.tar ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/client-service.tar
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -o StrictHostKeyChecking=no client-service.tar ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/client-service/client-service.tar
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -o StrictHostKeyChecking=no ./.docker/remote/docker-compose.yml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/client-service/docker-compose.yml
 
       - name: Load and run container on server
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} '
-            sudo docker load -i /tmp/client-service.tar &&
-            sudo docker stop client-service-container || true &&
-            sudo docker rm client-service-container || true &&
-            sudo docker run -d --name client-service-container -p 5000:5000 client-service:latest
+            cd /tmp/client-service
+            sudo docker load -i client-service.tar &&
+            sudo docker-compose up -d
           '
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
