@@ -1,6 +1,6 @@
 {
 	"ShutdownTimeoutSeconds": 10,
-	"PostgresDSN": "user='user' password='password' host='postgres' port=5432 dbname='client-service' sslmode=disable",
+	"PostgresDSN": "user='booktok_admin' password='superstrongadminpassword' host='194.87.213.141' port=5432 dbname='auth-service' sslmode=disable",
 	"Delivery": {
 		"Server": {
 			"ReadTimeoutSeconds": 10,
