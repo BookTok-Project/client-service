@@ -7,6 +7,6 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o run ./cmd/
 FROM alpine:latest AS runner
 WORKDIR /app
 COPY --from=builder /build/run .
-COPY --from=builder /build/cmd/config.json .
+COPY --from=builder /build/.docker/remote/config.json .
 EXPOSE 8000
 ENTRYPOINT ["./run"]
