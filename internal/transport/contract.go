@@ -1,6 +1,7 @@
 package transport
 
 import (
+	"client-service/internal/domain"
 	"context"
 
 	"github.com/gofiber/fiber/v2"
@@ -18,4 +19,8 @@ type service interface {
 	AddFavorite(ctx context.Context, userID, bookID int64) error
 	RemoveFavorite(ctx context.Context, userID, bookID int64) error
 	ListFavorites(ctx context.Context, userID int64) ([]int64, error)
+
+	AddComment(ctx context.Context, userID, bookID int64, text string) error
+	GetCommentsByBookID(ctx context.Context, page, limit, bookID int64) ([]domain.Comment, int64, error)
+	GetCommentsByUserID(ctx context.Context, page, limit, userID int64) ([]domain.Comment, int64, error)
 }

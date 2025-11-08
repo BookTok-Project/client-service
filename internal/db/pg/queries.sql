@@ -26,3 +26,31 @@ SELECT book_id
 FROM user_favorite_books
 WHERE user_id = $1
 ORDER BY created_at DESC;
+
+-- name: InsertComment :exec
+INSERT INTO comments_books (user_id, book_id, text)
+VALUES ($1, $2, $3);
+
+-- name: GetCommentsByBookId :many
+SELECT id, user_id, book_id, text, created_at
+FROM comments_books
+WHERE book_id = $1
+ORDER BY created_at DESC
+LIMIT $2 OFFSET $3;
+
+-- name: GetCommentsByUserId :many
+SELECT id, user_id, book_id, text, created_at
+FROM comments_books
+WHERE user_id = $1
+ORDER BY created_at DESC
+LIMIT $2 OFFSET $3;
+
+-- name: GetCountCommentsByBookId :one
+SELECT COUNT(*)
+FROM comments_books
+WHERE book_id = $1;
+
+-- name: GetCountCommentsByUserId :one
+SELECT COUNT(*)
+FROM comments_books
+WHERE user_id = $1;

@@ -6,11 +6,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type favoriteRequest struct {
-	UserID int64 `json:"user_id" validate:"required"`
-	BookID int64 `json:"book_id" validate:"required"`
-}
-
 func (t *Transport) AddFavorite(fiberCtx *fiber.Ctx) error {
 	var req favoriteRequest
 	if err := t.requestReader.ReadAndValidateFiberBody(fiberCtx, &req); err != nil {
