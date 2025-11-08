@@ -11,4 +11,8 @@ type transport interface {
 	AddFavorite(fiberCtx *fiber.Ctx) error
 	RemoveFavorite(fiberCtx *fiber.Ctx) error
 	ListFavorites(fiberCtx *fiber.Ctx) error
+
+	AddComment(fiberCtx *fiber.Ctx) error
+	GetCommentsByBookID(fiberCtx *fiber.Ctx) error
+	GetCommentsByUserID(fiberCtx *fiber.Ctx) error
 }

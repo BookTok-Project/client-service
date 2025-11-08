@@ -8,6 +8,14 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+type CommentsBook struct {
+	ID        int64
+	UserID    int64
+	BookID    int64
+	Text      string
+	CreatedAt pgtype.Timestamptz
+}
+
 type Subscription struct {
 	ID           int64
 	SubscriberID int64

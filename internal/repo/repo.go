@@ -46,3 +46,35 @@ func (r *Repo) RemoveFavorite(ctx context.Context, userID, bookID int64) error {
 func (r *Repo) ListFavorites(ctx context.Context, userID int64) ([]int64, error) {
 	return r.conn.Queries(ctx).ListFavoriteBooks(ctx, userID)
 }
+
+func (r *Repo) AddComment(ctx context.Context, userID, bookID int64, text string) error {
+	return r.conn.Queries(ctx).InsertComment(ctx, pg.InsertCommentParams{
+		UserID: userID,
+		BookID: bookID,
+		Text:   text,
+	})
+}
+
+func (r *Repo) GetCommentsByBookID(ctx context.Context, page, limit, bookID int64) ([]pg.CommentsBook, error) {
+	return r.conn.Queries(ctx).GetCommentsByBookId(ctx, pg.GetCommentsByBookIdParams{
+		BookID: bookID,
+		Limit:  int32(limit),
+		Offset: int32(limit * page),
+	})
+}
+
+func (r *Repo) GetCommentsByUserID(ctx context.Context, page, limit, userID int64) ([]pg.CommentsBook, error) {
+	return r.conn.Queries(ctx).GetCommentsByUserId(ctx, pg.GetCommentsByUserIdParams{
+		UserID: userID,
+		Limit:  int32(limit),
+		Offset: int32(limit * page),
+	})
+}
+
+func (r *Repo) GetCountCommentsByBookID(ctx context.Context, bookID int64) (int64, error) {
+	return r.conn.Queries(ctx).GetCountCommentsByBookId(ctx, bookID)
+}
+
+func (r *Repo) GetCountCommentsByUserID(ctx context.Context, userID int64) (int64, error) {
+	return r.conn.Queries(ctx).GetCountCommentsByUserId(ctx, userID)
+}

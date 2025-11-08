@@ -25,6 +25,112 @@ func (q *Queries) AddFavoriteBook(ctx context.Context, arg AddFavoriteBookParams
 	return err
 }
 
+const getCommentsByBookId = `-- name: GetCommentsByBookId :many
+SELECT id, user_id, book_id, text, created_at
+FROM comments_books
+WHERE book_id = $1
+ORDER BY created_at DESC
+LIMIT $2 OFFSET $3
+`
+
+type GetCommentsByBookIdParams struct {
+	BookID int64
+	Limit  int32
+	Offset int32
+}
+
+func (q *Queries) GetCommentsByBookId(ctx context.Context, arg GetCommentsByBookIdParams) ([]CommentsBook, error) {
+	rows, err := q.db.Query(ctx, getCommentsByBookId, arg.BookID, arg.Limit, arg.Offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []CommentsBook
+	for rows.Next() {
+		var i CommentsBook
+		if err := rows.Scan(
+			&i.ID,
+			&i.UserID,
+			&i.BookID,
+			&i.Text,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getCommentsByUserId = `-- name: GetCommentsByUserId :many
+SELECT id, user_id, book_id, text, created_at
+FROM comments_books
+WHERE user_id = $1
+ORDER BY created_at DESC
+LIMIT $2 OFFSET $3
+`
+
+type GetCommentsByUserIdParams struct {
+	UserID int64
+	Limit  int32
+	Offset int32
+}
+
+func (q *Queries) GetCommentsByUserId(ctx context.Context, arg GetCommentsByUserIdParams) ([]CommentsBook, error) {
+	rows, err := q.db.Query(ctx, getCommentsByUserId, arg.UserID, arg.Limit, arg.Offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []CommentsBook
+	for rows.Next() {
+		var i CommentsBook
+		if err := rows.Scan(
+			&i.ID,
+			&i.UserID,
+			&i.BookID,
+			&i.Text,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getCountCommentsByBookId = `-- name: GetCountCommentsByBookId :one
+SELECT COUNT(*)
+FROM comments_books
+WHERE book_id = $1
+`
+
+func (q *Queries) GetCountCommentsByBookId(ctx context.Context, bookID int64) (int64, error) {
+	row := q.db.QueryRow(ctx, getCountCommentsByBookId, bookID)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
+const getCountCommentsByUserId = `-- name: GetCountCommentsByUserId :one
+SELECT COUNT(*)
+FROM comments_books
+WHERE user_id = $1
+`
+
+func (q *Queries) GetCountCommentsByUserId(ctx context.Context, userID int64) (int64, error) {
+	row := q.db.QueryRow(ctx, getCountCommentsByUserId, userID)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
 const getSubscribeeIDs = `-- name: GetSubscribeeIDs :many
 SELECT subscribee_id
 FROM subscriptions
@@ -75,6 +181,22 @@ func (q *Queries) GetSubscriberIDs(ctx context.Context, subscribeeID int64) ([]i
 		return nil, err
 	}
 	return items, nil
+}
+
+const insertComment = `-- name: InsertComment :exec
+INSERT INTO comments_books (user_id, book_id, text)
+VALUES ($1, $2, $3)
+`
+
+type InsertCommentParams struct {
+	UserID int64
+	BookID int64
+	Text   string
+}
+
+func (q *Queries) InsertComment(ctx context.Context, arg InsertCommentParams) error {
+	_, err := q.db.Exec(ctx, insertComment, arg.UserID, arg.BookID, arg.Text)
+	return err
 }
 
 const listFavoriteBooks = `-- name: ListFavoriteBooks :many
