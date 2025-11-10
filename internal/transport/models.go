@@ -33,6 +33,20 @@ type CommentResponse struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
+type addComplaintRequest struct {
+	UserID 	int64	`json:"user_id"`
+	BookID 	int64	`json:"book_id"`
+	Text	string	`json:"text"`	
+}
+
+type addComplaintResponse struct {
+	ID		int64		`json:"id"`
+	UserID		int64		`json:"user_id"`
+	BookID		int64		`json:"book_id"`
+	Text		string		`json:"text"`
+	CreatedAt	time.Time	`json:"created_at"`
+}
+
 func ConvertToCommentResponse(comment domain.Comment) CommentResponse {
 	return CommentResponse{
 		CommentID: comment.ID,
@@ -62,4 +76,18 @@ func ConvertToGetCommentsResponse(comments []domain.Comment, total int64) GetCom
 		Comments: convertToCommentsResponse(comments),
 		Total:    total,
 	}
+}
+
+func ConvertToAddComplaintsResponse(complaint domain.Complaint) addComplaintResponse {
+	return addComplaintResponse {
+		ID:		Complaint.ID
+		UserID:		Complaint.UserID
+		BookID:		Complaint.BookID
+		Text:		Complaint.Text
+		CreatedAt:	*Complaint.CreatedAt,
+	}
+}
+
+func ConvertToAddComplaintsResponse() {
+	
 }

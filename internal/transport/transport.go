@@ -73,3 +73,4 @@ func (t *Transport) Subscribe(fiberCtx *fiber.Ctx) error {
 
 	return fiberCtx.SendStatus(fiber.StatusCreated)
 }
+

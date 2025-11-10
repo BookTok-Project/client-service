@@ -19,4 +19,7 @@ type repo interface {
 	GetCommentsByUserID(ctx context.Context, page, limit, userID int64) ([]pg.CommentsBook, error)
 	GetCountCommentsByBookID(ctx context.Context, bookID int64) (int64, error)
 	GetCountCommentsByUserID(ctx context.Context, userID int64) (int64, error)
+
+	// TODO
+	
 }

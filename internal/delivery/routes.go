@@ -17,4 +17,7 @@ func registerRoutes(app *fiber.App, transport transport) {
 	app.Post("/comments", transport.AddComment)
 	app.Get("/comments/book/:book_id", transport.GetCommentsByBookID)
 	app.Get("/comments/user/:user_id", transport.GetCommentsByUserID)
+
+	app.Post("/complaint", transport.AddComplaint)
+	app.Get("/complaint", transport.GetComplaints)
 }
