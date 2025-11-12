@@ -40,11 +40,19 @@ type addComplaintRequest struct {
 }
 
 type addComplaintResponse struct {
-	ID		int64		`json:"id"`
+	ComplaintID	int64		`json:"complaint_id"`
 	UserID		int64		`json:"user_id"`
 	BookID		int64		`json:"book_id"`
 	Text		string		`json:"text"`
 	CreatedAt	time.Time	`json:"created_at"`
+}
+
+type ComplaintResponse struct {
+	ComplaintID int64     `json:"id"`
+	UserID    int64     `json:"user_id"`
+	BookID    int64     `json:"book_id"`
+	Text      string    `json:"text"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 func ConvertToCommentResponse(comment domain.Comment) CommentResponse {
@@ -71,6 +79,16 @@ type GetCommentsResponse struct {
 	Total    int64             `json:"total"`
 }
 
+func ConvertToComplaintResponse(complaint domain.Complaint) ComplaintResponse {
+	return ComplaintResponse {
+		ComplaintID: 	complaint.ComplaintID,
+		UserID:    	complaint.UserID,
+		BookID:    	complaint.BookID,
+		Text:      	complaint.Text,
+		CreatedAt: 	*complaint.CreatedAt,
+	}
+}
+
 func ConvertToGetCommentsResponse(comments []domain.Comment, total int64) GetCommentsResponse {
 	return GetCommentsResponse{
 		Comments: convertToCommentsResponse(comments),
@@ -78,16 +96,23 @@ func ConvertToGetCommentsResponse(comments []domain.Comment, total int64) GetCom
 	}
 }
 
+/*
 func ConvertToAddComplaintsResponse(complaint domain.Complaint) addComplaintResponse {
 	return addComplaintResponse {
-		ID:		Complaint.ID
-		UserID:		Complaint.UserID
-		BookID:		Complaint.BookID
-		Text:		Complaint.Text
-		CreatedAt:	*Complaint.CreatedAt,
+		ComplaintID:	complaint.ComplaintID,
+		UserID:		complaint.UserID,
+		BookID:		complaint.BookID,
+		Text:		complaint.Text,
+		CreatedAt:	*complaint.CreatedAt,
 	}
 }
+*/
 
-func ConvertToAddComplaintsResponse() {
-	
+func ConvertToGetComplaintsResponse(complaints[] domain.Complaint) []ComplaintResponse{
+	domainComplaints := make([]ComplaintResponse, 0, len(complaints))
+	for _, pgComment := range complaints {
+		domainComplaints = append(domainComplaints, ConvertToComplaintResponse(pgComment))
+	}
+
+	return domainComplaints
 }

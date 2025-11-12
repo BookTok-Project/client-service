@@ -16,6 +16,6 @@ type transport interface {
 	GetCommentsByBookID(fiberCtx *fiber.Ctx) error
 	GetCommentsByUserID(fiberCtx *fiber.Ctx) error
 
-	AddComplaint(fiber Ctx *fiber.Ctx) error
-	GetComplaints(fiber Ctx *fiber.Ctx) error
+	AddComplaint(fiberCtx *fiber.Ctx) error
+	GetComplaints(fiberCtx *fiber.Ctx) error
 }

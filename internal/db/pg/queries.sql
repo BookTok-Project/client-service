@@ -54,3 +54,11 @@ WHERE book_id = $1;
 SELECT COUNT(*)
 FROM comments_books
 WHERE user_id = $1;
+
+-- name: GetComplaints :many
+SELECT *
+FROM complaints;
+
+-- name: AddComplaint :exec
+INSERT INTO complaints(user_id, book_id, text)
+VALUES ($1, $2, $3);

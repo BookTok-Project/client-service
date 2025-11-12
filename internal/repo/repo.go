@@ -78,3 +78,4 @@ func (r *Repo) GetCountCommentsByBookID(ctx context.Context, bookID int64) (int6
 func (r *Repo) GetCountCommentsByUserID(ctx context.Context, userID int64) (int64, error) {
 	return r.conn.Queries(ctx).GetCountCommentsByUserId(ctx, userID)
 }
+

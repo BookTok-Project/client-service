@@ -24,5 +24,5 @@ type service interface {
 	GetCommentsByBookID(ctx context.Context, page, limit, bookID int64) ([]domain.Comment, int64, error)
 	GetCommentsByUserID(ctx context.Context, page, limit, userID int64) ([]domain.Comment, int64, error)
 	GetComplaints(ctx context.Context) ([]domain.Complaint, error)
-	AddComplaint(ctx context.Context, userID, bookID int64, text string) (domain.Complaint, error)
+	AddComplaint(ctx context.Context, userID, bookID int64, text string) error
 }
