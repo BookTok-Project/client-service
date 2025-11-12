@@ -20,9 +20,9 @@ type favoriteRequest struct {
 }
 
 type addCommentRequest struct {
-	UserID int64  `json:"user_id" validate:"required"`
-	BookID int64  `json:"book_id" validate:"required"`
-	Text   string `json:"text" validate:"required"`
+	UserID int64  `json:"user_id" 	validate:"required"`
+	BookID int64  `json:"book_id" 	validate:"required"`
+	Text   string `json:"text" 	validate:"required"`
 }
 
 type CommentResponse struct {
@@ -34,9 +34,9 @@ type CommentResponse struct {
 }
 
 type addComplaintRequest struct {
-	UserID 	int64	`json:"user_id"`
-	BookID 	int64	`json:"book_id"`
-	Text	string	`json:"text"`	
+	UserID 	int64	`json:"user_id" validate:"required"`
+	BookID 	int64	`json:"book_id" validate:"required"`
+	Text	string	`json:"text" validate:"required"`	
 }
 
 type addComplaintResponse struct {
