@@ -34,3 +34,22 @@ func ConvertToDomainComments(pgComments []pg.CommentsBook) []domain.Comment {
 
 	return domainComments
 }
+
+func ConvertToDomainComplaint(complaint pg.Complaint) domain.Complaint {
+	return domain.Complaint{
+		ComplaintID: complaint.ID,
+		UserID:      complaint.UserID,
+		BookID:      complaint.BookID,
+		Text:        complaint.Text,
+		CreatedAt:   ConvertFromPgTimestamptz(complaint.CreatedAt),
+	}
+}
+
+func ConvertToDomainComplaints(pgComplaints []pg.Complaint) []domain.Complaint {
+	domainComplaints := make([]domain.Complaint, 0, len(pgComplaints))
+	for _, pgComplaint := range pgComplaints {
+		domainComplaints = append(domainComplaints, ConvertToDomainComplaint(pgComplaint))
+	}
+
+	return domainComplaints
+}

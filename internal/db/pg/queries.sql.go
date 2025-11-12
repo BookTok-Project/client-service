@@ -9,6 +9,22 @@ import (
 	"context"
 )
 
+const addComplaint = `-- name: AddComplaint :exec
+INSERT INTO complaints(user_id, book_id, text)
+VALUES ($1, $2, $3)
+`
+
+type AddComplaintParams struct {
+	UserID int64
+	BookID int64
+	Text   string
+}
+
+func (q *Queries) AddComplaint(ctx context.Context, arg AddComplaintParams) error {
+	_, err := q.db.Exec(ctx, addComplaint, arg.UserID, arg.BookID, arg.Text)
+	return err
+}
+
 const addFavoriteBook = `-- name: AddFavoriteBook :exec
 INSERT INTO user_favorite_books (user_id, book_id)
 VALUES ($1, $2)
@@ -88,6 +104,37 @@ func (q *Queries) GetCommentsByUserId(ctx context.Context, arg GetCommentsByUser
 	var items []CommentsBook
 	for rows.Next() {
 		var i CommentsBook
+		if err := rows.Scan(
+			&i.ID,
+			&i.UserID,
+			&i.BookID,
+			&i.Text,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getComplaints = `-- name: GetComplaints :many
+SELECT id, user_id, book_id, text, created_at
+FROM complaints
+`
+
+func (q *Queries) GetComplaints(ctx context.Context) ([]Complaint, error) {
+	rows, err := q.db.Query(ctx, getComplaints)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Complaint
+	for rows.Next() {
+		var i Complaint
 		if err := rows.Scan(
 			&i.ID,
 			&i.UserID,

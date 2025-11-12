@@ -72,3 +72,12 @@ func (s *Service) GetCommentsByUserID(ctx context.Context, page, limit, userID i
 
 	return dto.ConvertToDomainComments(comments), totalComments, nil
 }
+
+func (s *Service) GetComplaints(ctx context.Context) ([]domain.Complaint, error) {
+	complaints, err := s.repo.GetComplaints(ctx)
+	return dto.ConvertToDomainComplaints(complaints), err
+}
+
+func (s *Service) AddComplaint(ctx context.Context, userID, bookID int64, text string) error {
+	return s.repo.AddComplaint(ctx, userID, bookID, text)
+}
