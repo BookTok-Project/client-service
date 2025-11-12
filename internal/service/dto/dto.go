@@ -37,11 +37,11 @@ func ConvertToDomainComments(pgComments []pg.CommentsBook) []domain.Comment {
 
 func ConvertToDomainComplaint(complaint pg.Complaint) domain.Complaint {
 	return domain.Complaint{
-		ComplaintID:		complaint.ID,
-		UserID:    		complaint.UserID,
-		BookID:    		complaint.BookID,
-		Text:      		complaint.Text,
-		CreatedAt: 		ConvertFromPgTimestamptz(complaint.CreatedAt),
+		ComplaintID: complaint.ID,
+		UserID:      complaint.UserID,
+		BookID:      complaint.BookID,
+		Text:        complaint.Text,
+		CreatedAt:   ConvertFromPgTimestamptz(complaint.CreatedAt),
 	}
 }
 

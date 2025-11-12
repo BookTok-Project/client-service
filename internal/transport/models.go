@@ -20,9 +20,9 @@ type favoriteRequest struct {
 }
 
 type addCommentRequest struct {
-	UserID int64  `json:"user_id" 	validate:"required"`
-	BookID int64  `json:"book_id" 	validate:"required"`
-	Text   string `json:"text" 	validate:"required"`
+	UserID int64  `json:"user_id" validate:"required"`
+	BookID int64  `json:"book_id" validate:"required"`
+	Text   string `json:"text" validate:"required"`
 }
 
 type CommentResponse struct {
@@ -34,25 +34,17 @@ type CommentResponse struct {
 }
 
 type addComplaintRequest struct {
-	UserID 	int64	`json:"user_id" validate:"required"`
-	BookID 	int64	`json:"book_id" validate:"required"`
-	Text	string	`json:"text" validate:"required"`	
-}
-
-type addComplaintResponse struct {
-	ComplaintID	int64		`json:"complaint_id"`
-	UserID		int64		`json:"user_id"`
-	BookID		int64		`json:"book_id"`
-	Text		string		`json:"text"`
-	CreatedAt	time.Time	`json:"created_at"`
+	UserID int64  `json:"user_id" validate:"required"`
+	BookID int64  `json:"book_id" validate:"required"`
+	Text   string `json:"text" validate:"required"`
 }
 
 type ComplaintResponse struct {
 	ComplaintID int64     `json:"id"`
-	UserID    int64     `json:"user_id"`
-	BookID    int64     `json:"book_id"`
-	Text      string    `json:"text"`
-	CreatedAt time.Time `json:"created_at"`
+	UserID      int64     `json:"user_id"`
+	BookID      int64     `json:"book_id"`
+	Text        string    `json:"text"`
+	CreatedAt   time.Time `json:"created_at"`
 }
 
 func ConvertToCommentResponse(comment domain.Comment) CommentResponse {
@@ -80,12 +72,12 @@ type GetCommentsResponse struct {
 }
 
 func ConvertToComplaintResponse(complaint domain.Complaint) ComplaintResponse {
-	return ComplaintResponse {
-		ComplaintID: 	complaint.ComplaintID,
-		UserID:    	complaint.UserID,
-		BookID:    	complaint.BookID,
-		Text:      	complaint.Text,
-		CreatedAt: 	*complaint.CreatedAt,
+	return ComplaintResponse{
+		ComplaintID: complaint.ComplaintID,
+		UserID:      complaint.UserID,
+		BookID:      complaint.BookID,
+		Text:        complaint.Text,
+		CreatedAt:   *complaint.CreatedAt,
 	}
 }
 
@@ -108,7 +100,7 @@ func ConvertToAddComplaintsResponse(complaint domain.Complaint) addComplaintResp
 }
 */
 
-func ConvertToGetComplaintsResponse(complaints[] domain.Complaint) []ComplaintResponse{
+func ConvertToGetComplaintsResponse(complaints []domain.Complaint) []ComplaintResponse {
 	domainComplaints := make([]ComplaintResponse, 0, len(complaints))
 	for _, pgComment := range complaints {
 		domainComplaints = append(domainComplaints, ConvertToComplaintResponse(pgComment))

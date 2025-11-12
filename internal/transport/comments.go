@@ -116,4 +116,3 @@ func (t *Transport) GetCommentsByUserID(fiberCtx *fiber.Ctx) error {
 
 	return fiberCtx.Status(fiber.StatusOK).JSON(response)
 }
-

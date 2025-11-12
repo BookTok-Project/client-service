@@ -20,6 +20,6 @@ type repo interface {
 	GetCountCommentsByBookID(ctx context.Context, bookID int64) (int64, error)
 	GetCountCommentsByUserID(ctx context.Context, userID int64) (int64, error)
 
-	AddComplaint (ctx context.Context, userID, bookID int64, text string) error
-	GetComplaints (ctx context.Context) ([]pg.Complaint, error)
+	AddComplaint(ctx context.Context, userID, bookID int64, text string) error
+	GetComplaints(ctx context.Context) ([]pg.Complaint, error)
 }
