@@ -81,3 +81,15 @@ func (s *Service) GetComplaints(ctx context.Context) ([]domain.Complaint, error)
 func (s *Service) AddComplaint(ctx context.Context, userID, bookID int64, text string) error {
 	return s.repo.AddComplaint(ctx, userID, bookID, text)
 }
+
+func (s *Service) AddLike(ctx context.Context, userID, bookID int64) error {
+	return s.repo.AddLike(ctx, userID, bookID)
+}
+
+func (s *Service) RemoveLike(ctx context.Context, userID, bookID int64) error {
+	return s.repo.RemoveLike(ctx, userID, bookID)
+}
+
+func (s *Service) ListLike(ctx context.Context, userID int64) ([]int64, error) {
+	return s.repo.ListLike(ctx, userID)
+}

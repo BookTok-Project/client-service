@@ -78,3 +78,21 @@ func (r *Repo) GetCountCommentsByBookID(ctx context.Context, bookID int64) (int6
 func (r *Repo) GetCountCommentsByUserID(ctx context.Context, userID int64) (int64, error) {
 	return r.conn.Queries(ctx).GetCountCommentsByUserId(ctx, userID)
 }
+
+func (r *Repo) AddLike(ctx context.Context, userID, bookID int64) error {
+	return r.conn.Queries(ctx).AddLikeBook(ctx, pg.AddLikeBookParams{
+		UserID: userID,
+		BookID: bookID,
+	})
+}
+
+func (r *Repo) RemoveLike(ctx context.Context, userID, bookID int64) error {
+	return r.conn.Queries(ctx).RemoveLikeBook(ctx, pg.RemoveLikeBookParams{
+		UserID: userID,
+		BookID: bookID,
+	})
+}
+
+func (r *Repo) ListLike(ctx context.Context, userID int64) ([]int64, error) {
+	return r.conn.Queries(ctx).ListLikeBooks(ctx, userID)
+}

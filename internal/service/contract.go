@@ -22,4 +22,8 @@ type repo interface {
 
 	AddComplaint(ctx context.Context, userID, bookID int64, text string) error
 	GetComplaints(ctx context.Context) ([]pg.Complaint, error)
+
+	AddLike(ctx context.Context, userID, bookID int64) error
+	RemoveLike(ctx context.Context, userID, bookID int64) error
+	ListLike(ctx context.Context, userID int64) ([]int64, error)
 }

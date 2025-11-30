@@ -36,3 +36,10 @@ type UserFavoriteBook struct {
 	BookID    int64
 	CreatedAt pgtype.Timestamptz
 }
+
+type UserLikedBook struct {
+	ID        int64
+	UserID    int64
+	BookID    int64
+	CreatedAt pgtype.Timestamptz
+}
