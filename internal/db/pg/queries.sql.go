@@ -41,6 +41,22 @@ func (q *Queries) AddFavoriteBook(ctx context.Context, arg AddFavoriteBookParams
 	return err
 }
 
+const addLikeBook = `-- name: AddLikeBook :exec
+INSERT INTO user_liked_books (user_id, book_id)
+VALUES ($1, $2)
+ON CONFLICT (user_id, book_id) DO NOTHING
+`
+
+type AddLikeBookParams struct {
+	UserID int64
+	BookID int64
+}
+
+func (q *Queries) AddLikeBook(ctx context.Context, arg AddLikeBookParams) error {
+	_, err := q.db.Exec(ctx, addLikeBook, arg.UserID, arg.BookID)
+	return err
+}
+
 const getCommentsByBookId = `-- name: GetCommentsByBookId :many
 SELECT id, user_id, book_id, text, created_at
 FROM comments_books
@@ -273,6 +289,33 @@ func (q *Queries) ListFavoriteBooks(ctx context.Context, userID int64) ([]int64,
 	return items, nil
 }
 
+const listLikeBooks = `-- name: ListLikeBooks :many
+SELECT book_id
+FROM user_liked_books
+WHERE user_id = $1
+ORDER BY created_at DESC
+`
+
+func (q *Queries) ListLikeBooks(ctx context.Context, userID int64) ([]int64, error) {
+	rows, err := q.db.Query(ctx, listLikeBooks, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []int64
+	for rows.Next() {
+		var book_id int64
+		if err := rows.Scan(&book_id); err != nil {
+			return nil, err
+		}
+		items = append(items, book_id)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const removeFavoriteBook = `-- name: RemoveFavoriteBook :exec
 DELETE FROM user_favorite_books
 WHERE user_id = $1 AND book_id = $2
@@ -285,6 +328,21 @@ type RemoveFavoriteBookParams struct {
 
 func (q *Queries) RemoveFavoriteBook(ctx context.Context, arg RemoveFavoriteBookParams) error {
 	_, err := q.db.Exec(ctx, removeFavoriteBook, arg.UserID, arg.BookID)
+	return err
+}
+
+const removeLikeBook = `-- name: RemoveLikeBook :exec
+DELETE FROM user_liked_books
+WHERE user_id = $1 AND book_id = $2
+`
+
+type RemoveLikeBookParams struct {
+	UserID int64
+	BookID int64
+}
+
+func (q *Queries) RemoveLikeBook(ctx context.Context, arg RemoveLikeBookParams) error {
+	_, err := q.db.Exec(ctx, removeLikeBook, arg.UserID, arg.BookID)
 	return err
 }
 

@@ -18,4 +18,8 @@ type transport interface {
 
 	AddComplaint(fiberCtx *fiber.Ctx) error
 	GetComplaints(fiberCtx *fiber.Ctx) error
+
+	AddLike(fiberCtx *fiber.Ctx) error
+	RemoveLike(fiberCtx *fiber.Ctx) error
+	ListLike(fiberCtx *fiber.Ctx) error
 }

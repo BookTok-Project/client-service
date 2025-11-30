@@ -62,3 +62,18 @@ FROM complaints;
 -- name: AddComplaint :exec
 INSERT INTO complaints(user_id, book_id, text)
 VALUES ($1, $2, $3);
+
+-- name: AddLikeBook :exec
+INSERT INTO user_liked_books (user_id, book_id)
+VALUES ($1, $2)
+ON CONFLICT (user_id, book_id) DO NOTHING;
+
+-- name: RemoveLikeBook :exec
+DELETE FROM user_liked_books
+WHERE user_id = $1 AND book_id = $2;
+
+-- name: ListLikeBooks :many
+SELECT book_id
+FROM user_liked_books
+WHERE user_id = $1
+ORDER BY created_at DESC;
