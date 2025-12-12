@@ -25,19 +25,19 @@ func (q *Queries) AddComplaint(ctx context.Context, arg AddComplaintParams) erro
 	return err
 }
 
-const addFavoriteBook = `-- name: AddFavoriteBook :exec
-INSERT INTO user_favorite_books (user_id, book_id)
+const addFavoriteCard = `-- name: AddFavoriteCard :exec
+INSERT INTO user_favorite_cards (user_id, card_id)
 VALUES ($1, $2)
-ON CONFLICT (user_id, book_id) DO NOTHING
+ON CONFLICT (user_id, card_id) DO NOTHING
 `
 
-type AddFavoriteBookParams struct {
+type AddFavoriteCardParams struct {
 	UserID int64
-	BookID int64
+	CardID int64
 }
 
-func (q *Queries) AddFavoriteBook(ctx context.Context, arg AddFavoriteBookParams) error {
-	_, err := q.db.Exec(ctx, addFavoriteBook, arg.UserID, arg.BookID)
+func (q *Queries) AddFavoriteCard(ctx context.Context, arg AddFavoriteCardParams) error {
+	_, err := q.db.Exec(ctx, addFavoriteCard, arg.UserID, arg.CardID)
 	return err
 }
 
@@ -262,26 +262,26 @@ func (q *Queries) InsertComment(ctx context.Context, arg InsertCommentParams) er
 	return err
 }
 
-const listFavoriteBooks = `-- name: ListFavoriteBooks :many
-SELECT book_id
-FROM user_favorite_books
+const listFavoriteCards = `-- name: ListFavoriteCards :many
+SELECT card_id
+FROM user_favorite_cards
 WHERE user_id = $1
 ORDER BY created_at DESC
 `
 
-func (q *Queries) ListFavoriteBooks(ctx context.Context, userID int64) ([]int64, error) {
-	rows, err := q.db.Query(ctx, listFavoriteBooks, userID)
+func (q *Queries) ListFavoriteCards(ctx context.Context, userID int64) ([]int64, error) {
+	rows, err := q.db.Query(ctx, listFavoriteCards, userID)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 	var items []int64
 	for rows.Next() {
-		var book_id int64
-		if err := rows.Scan(&book_id); err != nil {
+		var card_id int64
+		if err := rows.Scan(&card_id); err != nil {
 			return nil, err
 		}
-		items = append(items, book_id)
+		items = append(items, card_id)
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
@@ -316,18 +316,18 @@ func (q *Queries) ListLikeBooks(ctx context.Context, userID int64) ([]int64, err
 	return items, nil
 }
 
-const removeFavoriteBook = `-- name: RemoveFavoriteBook :exec
-DELETE FROM user_favorite_books
-WHERE user_id = $1 AND book_id = $2
+const removeFavoriteCard = `-- name: RemoveFavoriteCard :exec
+DELETE FROM user_favorite_cards
+WHERE user_id = $1 AND card_id = $2
 `
 
-type RemoveFavoriteBookParams struct {
+type RemoveFavoriteCardParams struct {
 	UserID int64
-	BookID int64
+	CardID int64
 }
 
-func (q *Queries) RemoveFavoriteBook(ctx context.Context, arg RemoveFavoriteBookParams) error {
-	_, err := q.db.Exec(ctx, removeFavoriteBook, arg.UserID, arg.BookID)
+func (q *Queries) RemoveFavoriteCard(ctx context.Context, arg RemoveFavoriteCardParams) error {
+	_, err := q.db.Exec(ctx, removeFavoriteCard, arg.UserID, arg.CardID)
 	return err
 }
 

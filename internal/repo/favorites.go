@@ -14,20 +14,20 @@ func NewFavoritesRepo(db pg.Conn) *FavoritesRepo {
 	return &FavoritesRepo{db: db}
 }
 
-func (r *FavoritesRepo) Add(ctx context.Context, userID, bookID int64) error {
-	return r.db.Queries(ctx).AddFavoriteBook(ctx, pg.AddFavoriteBookParams{
+func (r *FavoritesRepo) Add(ctx context.Context, userID, cardID int64) error {
+	return r.db.Queries(ctx).AddFavoriteCard(ctx, pg.AddFavoriteCardParams{
 		UserID: userID,
-		BookID: bookID,
+		CardID: cardID,
 	})
 }
 
-func (r *FavoritesRepo) Remove(ctx context.Context, userID, bookID int64) error {
-	return r.db.Queries(ctx).RemoveFavoriteBook(ctx, pg.RemoveFavoriteBookParams{
+func (r *FavoritesRepo) Remove(ctx context.Context, userID, cardID int64) error {
+	return r.db.Queries(ctx).RemoveFavoriteCard(ctx, pg.RemoveFavoriteCardParams{
 		UserID: userID,
-		BookID: bookID,
+		CardID: cardID,
 	})
 }
 
 func (r *FavoritesRepo) List(ctx context.Context, userID int64) ([]int64, error) {
-	return r.db.Queries(ctx).ListFavoriteBooks(ctx, userID)
+	return r.db.Queries(ctx).ListFavoriteCards(ctx, userID)
 }

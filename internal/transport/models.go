@@ -16,7 +16,7 @@ type errorResponse struct {
 
 type favoriteRequest struct {
 	UserID int64 `json:"user_id" validate:"required"`
-	BookID int64 `json:"book_id" validate:"required"`
+	CardID int64 `json:"card_id" validate:"required"`
 }
 
 type likeRequest struct {
