@@ -29,22 +29,22 @@ func (r *Repo) Subscribe(ctx context.Context, subscriberID, subscribeeID int64) 
 	})
 }
 
-func (r *Repo) AddFavorite(ctx context.Context, userID, bookID int64) error {
-	return r.conn.Queries(ctx).AddFavoriteBook(ctx, pg.AddFavoriteBookParams{
+func (r *Repo) AddFavorite(ctx context.Context, userID, cardID int64) error {
+	return r.conn.Queries(ctx).AddFavoriteCard(ctx, pg.AddFavoriteCardParams{
 		UserID: userID,
-		BookID: bookID,
+		CardID: cardID,
 	})
 }
 
-func (r *Repo) RemoveFavorite(ctx context.Context, userID, bookID int64) error {
-	return r.conn.Queries(ctx).RemoveFavoriteBook(ctx, pg.RemoveFavoriteBookParams{
+func (r *Repo) RemoveFavorite(ctx context.Context, userID, cardID int64) error {
+	return r.conn.Queries(ctx).RemoveFavoriteCard(ctx, pg.RemoveFavoriteCardParams{
 		UserID: userID,
-		BookID: bookID,
+		CardID: cardID,
 	})
 }
 
 func (r *Repo) ListFavorites(ctx context.Context, userID int64) ([]int64, error) {
-	return r.conn.Queries(ctx).ListFavoriteBooks(ctx, userID)
+	return r.conn.Queries(ctx).ListFavoriteCards(ctx, userID)
 }
 
 func (r *Repo) AddComment(ctx context.Context, userID, bookID int64, text string) error {

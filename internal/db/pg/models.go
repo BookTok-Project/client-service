@@ -30,10 +30,10 @@ type Subscription struct {
 	SubscribeeID int64
 }
 
-type UserFavoriteBook struct {
+type UserFavoriteCard struct {
 	ID        int64
 	UserID    int64
-	BookID    int64
+	CardID    int64
 	CreatedAt pgtype.Timestamptz
 }
 

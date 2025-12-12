@@ -29,12 +29,12 @@ func (s *Service) GetSubscribeeIDs(ctx context.Context, subscriberID int64) ([]i
 	return s.repo.GetSubscribeeIDs(ctx, subscriberID)
 }
 
-func (s *Service) AddFavorite(ctx context.Context, userID, bookID int64) error {
-	return s.repo.AddFavorite(ctx, userID, bookID)
+func (s *Service) AddFavorite(ctx context.Context, userID, cardID int64) error {
+	return s.repo.AddFavorite(ctx, userID, cardID)
 }
 
-func (s *Service) RemoveFavorite(ctx context.Context, userID, bookID int64) error {
-	return s.repo.RemoveFavorite(ctx, userID, bookID)
+func (s *Service) RemoveFavorite(ctx context.Context, userID, cardID int64) error {
+	return s.repo.RemoveFavorite(ctx, userID, cardID)
 }
 
 func (s *Service) ListFavorites(ctx context.Context, userID int64) ([]int64, error) {

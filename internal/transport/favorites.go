@@ -12,7 +12,7 @@ func (t *Transport) AddFavorite(fiberCtx *fiber.Ctx) error {
 		return fiberCtx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	if err := t.service.AddFavorite(fiberCtx.Context(), req.UserID, req.BookID); err != nil {
+	if err := t.service.AddFavorite(fiberCtx.Context(), req.UserID, req.CardID); err != nil {
 		return fiberCtx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
@@ -25,7 +25,7 @@ func (t *Transport) RemoveFavorite(fiberCtx *fiber.Ctx) error {
 		return fiberCtx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	if err := t.service.RemoveFavorite(fiberCtx.Context(), req.UserID, req.BookID); err != nil {
+	if err := t.service.RemoveFavorite(fiberCtx.Context(), req.UserID, req.CardID); err != nil {
 		return fiberCtx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
