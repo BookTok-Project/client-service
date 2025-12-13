@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"client-service/internal/db/pg"
+	"client-service/internal/repo/dto"
 )
 
 type Repo struct {
@@ -95,4 +96,15 @@ func (r *Repo) RemoveLike(ctx context.Context, userID, bookID int64) error {
 
 func (r *Repo) ListLike(ctx context.Context, userID int64) ([]int64, error) {
 	return r.conn.Queries(ctx).ListLikeBooks(ctx, userID)
+}
+
+func (r *Repo) GetBooksLikeCounts(ctx context.Context, args dto.GetBooksLikeCountsArgs) (dto.GetBooksLikeCountsResult, error) {
+	rows, err := r.conn.Queries(ctx).GetBooksLikeCounts(ctx, args.BookIDs)
+	if err != nil {
+		return dto.GetBooksLikeCountsResult{}, err
+	}
+
+	res := dto.ConvertToGetBooksLikeCountsResult(rows)
+
+	return res, nil
 }

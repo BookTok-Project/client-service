@@ -77,3 +77,11 @@ SELECT book_id
 FROM user_liked_books
 WHERE user_id = $1
 ORDER BY created_at DESC;
+
+-- name: GetBooksLikeCounts :many
+SELECT
+	args.book_id::BIGINT AS book_id,
+	COUNT(ulb.book_id)   AS count
+FROM UNNEST(@book_i_ds::BIGINT[]) AS args(book_id)
+LEFT JOIN user_liked_books ulb ON ulb.book_id = args.book_id
+GROUP BY args.book_id;

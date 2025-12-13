@@ -22,4 +22,5 @@ type transport interface {
 	AddLike(fiberCtx *fiber.Ctx) error
 	RemoveLike(fiberCtx *fiber.Ctx) error
 	ListLike(fiberCtx *fiber.Ctx) error
+	GetBooksLikeCounts(c *fiber.Ctx) error
 }

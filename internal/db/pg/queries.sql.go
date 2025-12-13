@@ -57,6 +57,40 @@ func (q *Queries) AddLikeBook(ctx context.Context, arg AddLikeBookParams) error 
 	return err
 }
 
+const getBooksLikeCounts = `-- name: GetBooksLikeCounts :many
+SELECT
+	args.book_id::BIGINT AS book_id,
+	COUNT(ulb.book_id)   AS count
+FROM UNNEST($1::BIGINT[]) AS args(book_id)
+LEFT JOIN user_liked_books ulb ON ulb.book_id = args.book_id
+GROUP BY args.book_id
+`
+
+type GetBooksLikeCountsRow struct {
+	BookID int64
+	Count  int64
+}
+
+func (q *Queries) GetBooksLikeCounts(ctx context.Context, bookIDs []int64) ([]GetBooksLikeCountsRow, error) {
+	rows, err := q.db.Query(ctx, getBooksLikeCounts, bookIDs)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetBooksLikeCountsRow
+	for rows.Next() {
+		var i GetBooksLikeCountsRow
+		if err := rows.Scan(&i.BookID, &i.Count); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getCommentsByBookId = `-- name: GetCommentsByBookId :many
 SELECT id, user_id, book_id, text, created_at
 FROM comments_books

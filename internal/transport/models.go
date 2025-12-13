@@ -1,8 +1,10 @@
 package transport
 
 import (
-	"client-service/internal/domain"
 	"time"
+
+	"client-service/internal/domain"
+	svcdto "client-service/internal/service/dto"
 )
 
 type subscribeRequest struct {
@@ -112,4 +114,46 @@ func ConvertToGetComplaintsResponse(complaints []domain.Complaint) []ComplaintRe
 	}
 
 	return domainComplaints
+}
+
+type getBooksLikeCountsRequest struct {
+	BookIDs []int64 `json:"book_ids" validate:"required"`
+}
+
+func (r getBooksLikeCountsRequest) ConvertToService() svcdto.GetBooksLikeCountsArgs {
+	args := svcdto.GetBooksLikeCountsArgs{
+		BookIDs: r.BookIDs,
+	}
+
+	return args
+}
+
+type getBooksLikeCountsResponse struct {
+	Items []getBooksLikeCountsResponseItem `json:"items"`
+}
+
+func convertToGetBooksLikeCountsResponse(svcRes svcdto.GetBooksLikeCountsResult) getBooksLikeCountsResponse {
+	res := getBooksLikeCountsResponse{
+		Items: make([]getBooksLikeCountsResponseItem, 0, len(svcRes.Items)),
+	}
+
+	for _, item := range svcRes.Items {
+		res.Items = append(res.Items, convertToGetBooksLikeCountsResponseItem(item))
+	}
+
+	return res
+}
+
+type getBooksLikeCountsResponseItem struct {
+	BookID int64 `json:"book_id"`
+	Count  int64 `json:"count"`
+}
+
+func convertToGetBooksLikeCountsResponseItem(svcItem svcdto.GetBooksLikeCountsResultItem) getBooksLikeCountsResponseItem {
+	item := getBooksLikeCountsResponseItem{
+		BookID: svcItem.BookID,
+		Count:  svcItem.Count,
+	}
+
+	return item
 }

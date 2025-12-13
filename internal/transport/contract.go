@@ -1,10 +1,12 @@
 package transport
 
 import (
-	"client-service/internal/domain"
 	"context"
 
 	"github.com/gofiber/fiber/v2"
+
+	"client-service/internal/domain"
+	svcdto "client-service/internal/service/dto"
 )
 
 type requestReader interface {
@@ -29,4 +31,5 @@ type service interface {
 	GetCommentsByUserID(ctx context.Context, page, limit, userID int64) ([]domain.Comment, int64, error)
 	GetComplaints(ctx context.Context) ([]domain.Complaint, error)
 	AddComplaint(ctx context.Context, userID, bookID int64, text string) error
+	GetBooksLikeCounts(ctx context.Context, args svcdto.GetBooksLikeCountsArgs) (svcdto.GetBooksLikeCountsResult, error)
 }

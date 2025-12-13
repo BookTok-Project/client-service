@@ -73,3 +73,23 @@ func (t *Transport) Subscribe(fiberCtx *fiber.Ctx) error {
 
 	return fiberCtx.SendStatus(fiber.StatusCreated)
 }
+
+func (t *Transport) GetBooksLikeCounts(c *fiber.Ctx) error {
+	var req getBooksLikeCountsRequest
+
+	err := t.requestReader.ReadAndValidateFiberBody(c, &req)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(errorResponse{
+			Error: err.Error(),
+		})
+	}
+
+	svcResp, err := t.service.GetBooksLikeCounts(c.Context(), req.ConvertToService())
+	if err != nil {
+		return err
+	}
+
+	resp := convertToGetBooksLikeCountsResponse(svcResp)
+
+	return c.Status(fiber.StatusOK).JSON(resp)
+}

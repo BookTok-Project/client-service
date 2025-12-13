@@ -6,6 +6,8 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5/pgtype"
+
+	repodto "client-service/internal/repo/dto"
 )
 
 func ConvertFromPgTimestamptz(ts pgtype.Timestamptz) *time.Time {
@@ -52,4 +54,46 @@ func ConvertToDomainComplaints(pgComplaints []pg.Complaint) []domain.Complaint {
 	}
 
 	return domainComplaints
+}
+
+type GetBooksLikeCountsArgs struct {
+	BookIDs []int64
+}
+
+func (a GetBooksLikeCountsArgs) ConvertToRepo() repodto.GetBooksLikeCountsArgs {
+	args := repodto.GetBooksLikeCountsArgs{
+		BookIDs: a.BookIDs,
+	}
+
+	return args
+}
+
+type GetBooksLikeCountsResult struct {
+	Items []GetBooksLikeCountsResultItem
+}
+
+func ConvertToGetBooksLikeCountsResult(repoRes repodto.GetBooksLikeCountsResult) GetBooksLikeCountsResult {
+	res := GetBooksLikeCountsResult{
+		Items: make([]GetBooksLikeCountsResultItem, 0, len(repoRes.Items)),
+	}
+
+	for _, item := range repoRes.Items {
+		res.Items = append(res.Items, ConvertToGetBooksLikeCountsResultItem(item))
+	}
+
+	return res
+}
+
+type GetBooksLikeCountsResultItem struct {
+	BookID int64
+	Count  int64
+}
+
+func ConvertToGetBooksLikeCountsResultItem(repoItem repodto.GetBooksLikeCountsResultItem) GetBooksLikeCountsResultItem {
+	item := GetBooksLikeCountsResultItem{
+		BookID: repoItem.BookID,
+		Count:  repoItem.Count,
+	}
+
+	return item
 }

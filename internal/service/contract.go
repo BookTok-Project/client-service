@@ -1,8 +1,10 @@
 package service
 
 import (
-	"client-service/internal/db/pg"
 	"context"
+
+	"client-service/internal/db/pg"
+	repodto "client-service/internal/repo/dto"
 )
 
 type repo interface {
@@ -19,6 +21,7 @@ type repo interface {
 	GetCommentsByUserID(ctx context.Context, page, limit, userID int64) ([]pg.CommentsBook, error)
 	GetCountCommentsByBookID(ctx context.Context, bookID int64) (int64, error)
 	GetCountCommentsByUserID(ctx context.Context, userID int64) (int64, error)
+	GetBooksLikeCounts(ctx context.Context, args repodto.GetBooksLikeCountsArgs) (repodto.GetBooksLikeCountsResult, error)
 
 	AddComplaint(ctx context.Context, userID, bookID int64, text string) error
 	GetComplaints(ctx context.Context) ([]pg.Complaint, error)

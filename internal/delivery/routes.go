@@ -22,4 +22,5 @@ func registerRoutes(app *fiber.App, transport transport) {
 	app.Post("/likes", transport.AddLike)
 	app.Delete("/likes", transport.RemoveLike)
 	app.Get("/likes/:user_id", transport.ListLike)
+	app.Post("/likes/counts", transport.GetBooksLikeCounts)
 }

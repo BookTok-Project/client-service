@@ -93,3 +93,14 @@ func (s *Service) RemoveLike(ctx context.Context, userID, bookID int64) error {
 func (s *Service) ListLike(ctx context.Context, userID int64) ([]int64, error) {
 	return s.repo.ListLike(ctx, userID)
 }
+
+func (s *Service) GetBooksLikeCounts(ctx context.Context, args dto.GetBooksLikeCountsArgs) (dto.GetBooksLikeCountsResult, error) {
+	repoRes, err := s.repo.GetBooksLikeCounts(ctx, args.ConvertToRepo())
+	if err != nil {
+		return dto.GetBooksLikeCountsResult{}, err
+	}
+
+	res := dto.ConvertToGetBooksLikeCountsResult(repoRes)
+
+	return res, nil
+}
